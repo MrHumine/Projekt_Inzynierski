@@ -1,0 +1,35 @@
+{
+  "project_info": {
+    "project_number": "78821524037",
+    "project_id": "inzynierskiprojekt-c436a",
+    "storage_bucket": "inzynierskiprojekt-c436a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78821524037:android:d6fd3e97d9dd28c565992c",
+        "android_client_info": {
+          "package_name": "com.example.inzynierskiprojekt"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCH4zrDACCGiTgVnOjEULk85votGsEb9tQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        },
+        "firebase_database": {
+          "databaseURL" : "https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/"
+        },
+        "firebase_auth": {
+          "oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

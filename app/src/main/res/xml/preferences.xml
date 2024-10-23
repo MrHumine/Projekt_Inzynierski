@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="app_settings"
+        android:title="Ustawienia aplikacji">
+
+
+    <SwitchPreferenceCompat
+        android:key="dark_mode"
+        android:title="Dark Mode"
+        android:summary="Enable or disable dark mode"
+        android:defaultValue="false"/>
+
+    <SeekBarPreference
+        android:key="font_size"
+        android:title="Font Size"
+        android:summary="Adjust the font size"
+        android:defaultValue="16"
+        android:max="32"
+        android:min="8"/>
+    </PreferenceCategory>
+
+
+
+</androidx.preference.PreferenceScreen>

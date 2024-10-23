@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:background="@android:color/holo_blue_light"
+             app:cardElevation="8dp"
+             app:cardCornerRadius="8dp"
+             android:layout_margin="16dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="8dp"
+        app:cardCornerRadius="8dp"
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Imie: "
+                            android:textStyle="bold"></TextView>
+
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=""></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Lokalizacja: "
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/textViewLocalization"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Charakter: "
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/textViewCharacter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Włosy: "
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/textViewHair"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Oczy: "
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/textViewEyes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Skóra: "
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/textViewSkin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Wzrost: "
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/textViewHeight"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""></TextView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Sylwetka: "
+                    android:textStyle="bold"></TextView>
+
+                <TextView
+                    android:id="@+id/textViewBody"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""></TextView>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buttonDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Usuń">
+            </Button>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edytuj">
+            </Button>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>
