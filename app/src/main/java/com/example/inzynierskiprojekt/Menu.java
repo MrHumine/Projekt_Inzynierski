@@ -2,14 +2,20 @@ package com.example.inzynierskiprojekt;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
-
 import com.google.firebase.FirebaseApp;
+import com.example.inzynierskiprojekt.R;
 
 public class Menu extends AppCompatActivity {
     private FragmentManager fragmentManager;
@@ -34,13 +40,23 @@ public class Menu extends AppCompatActivity {
         fragmentSettings = new FragmentSettings();
         fragmentPreferences = new FragmentPreferences();
 
+        Toolbar menuToolbar = (Toolbar) findViewById(R.id.toolbar_menu);
+        setSupportActionBar(menuToolbar);
+
+
         Button button1 = (Button) findViewById(R.id.buttonDodajPrzyjaciela);
         Button button2 = (Button) findViewById(R.id.buttonListaPrzyjaciol);
         Button button3 = (Button) findViewById(R.id.buttonOpcje);
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayoutMainMenu, fragmentAddFriend);
-        fragmentTransaction.commit();
+        if(savedInstanceState == null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayoutMainMenu, fragmentAddFriend);
+            fragmentTransaction.commit();
+        } else {
+            fragmentAddFriend = (FragmentAddFriend) fragmentManager.findFragmentByTag("add_friend");
+            fragmentListOfFriends = (FragmentListOfFriends) fragmentManager.findFragmentByTag("list_of_freinds");
+            fragmentSettings = (FragmentSettings) fragmentManager.findFragmentByTag("preferences");
+        }
 
         button1.setOnClickListener(View -> {
             FragmentTransaction ft = fragmentManager.beginTransaction();
@@ -61,6 +77,7 @@ public class Menu extends AppCompatActivity {
 
     }
 
+
 //    @Override
 //    public void onResume(){
 //        super.onResume();
@@ -74,4 +91,28 @@ public class Menu extends AppCompatActivity {
 //            }
 //        });
 //    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.settings){
+            Toast.makeText(this, "Ustawienia" , Toast.LENGTH_SHORT).show();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+
+        MenuInflater menuInflater = new MenuInflater(this);
+        menuInflater.inflate(R.menu.item, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
 }

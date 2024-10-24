@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">InzynierskiProjekt</string>
+    <string name="action_settings">settings</string>
+    <string name="action_log_out">Log Out</string>
 </resources>
