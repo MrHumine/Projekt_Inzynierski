@@ -3,11 +3,15 @@ package com.example.inzynierskiprojekt;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -30,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        Toolbar menuToolbar = (Toolbar) findViewById(R.id.toolbar_menu);
+        setSupportActionBar(menuToolbar);
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SettingsManager.applyTheme(sharedPreferences);
         buttonLogin = findViewById(R.id.buttonLogin);
@@ -45,4 +52,28 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intentRegister);
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.settings){
+//            Toast.makeText(this, "Ustawienia" , Toast.LENGTH_SHORT).show();
+            Intent intentUstawienia = new Intent(this, IntentUstawienia.class);
+            startActivity(intentUstawienia);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+
+        MenuInflater menuInflater = new MenuInflater(this);
+        menuInflater.inflate(R.menu.item_only_sett, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
 }

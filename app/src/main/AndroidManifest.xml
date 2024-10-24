@@ -25,6 +25,7 @@
         <activity android:name=".IntentLogin"></activity>
         <activity android:name=".IntentRegister"></activity>
         <activity android:name=".Menu"></activity>
+        <activity android:name=".IntentUstawienia"></activity>
     </application>
     <uses-permission
         android:name="android.permission.INTERNET"/>

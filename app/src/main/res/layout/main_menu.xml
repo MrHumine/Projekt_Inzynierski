@@ -43,14 +43,14 @@
             android:background="@drawable/shape_button"
             android:color="@color/lightBlue"></Button>
 
-        <Button
-            android:id="@+id/buttonOpcje"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Opcje"
-            android:background="@drawable/shape_button"
-            android:color="@color/lightGreen"></Button>
+<!--        <Button-->
+<!--            android:id="@+id/buttonOpcje"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_weight="1"-->
+<!--            android:text="Opcje"-->
+<!--            android:background="@drawable/shape_button"-->
+<!--            android:color="@color/lightGreen"></Button>-->
 
     </LinearLayout>
 

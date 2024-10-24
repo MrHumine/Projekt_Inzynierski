@@ -1,5 +1,6 @@
 package com.example.inzynierskiprojekt;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuInflater;
@@ -44,9 +45,11 @@ public class Menu extends AppCompatActivity {
         setSupportActionBar(menuToolbar);
 
 
+
+
         Button button1 = (Button) findViewById(R.id.buttonDodajPrzyjaciela);
         Button button2 = (Button) findViewById(R.id.buttonListaPrzyjaciol);
-        Button button3 = (Button) findViewById(R.id.buttonOpcje);
+//        Button button3 = (Button) findViewById(R.id.buttonOpcje);
 
         if(savedInstanceState == null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -70,10 +73,10 @@ public class Menu extends AppCompatActivity {
             ft.commit();
         });
 
-        button3.setOnClickListener((view) ->{
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.frameLayoutMainMenu, fragmentPreferences);
-            ft.commit();});
+//        button3.setOnClickListener((view) ->{
+//            FragmentTransaction ft = fragmentManager.beginTransaction();
+//            ft.replace(R.id.frameLayoutMainMenu, fragmentPreferences);
+//            ft.commit();});
 
     }
 
@@ -99,7 +102,11 @@ public class Menu extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.settings){
-            Toast.makeText(this, "Ustawienia" , Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Ustawienia" , Toast.LENGTH_SHORT).show();
+            Intent intentUstawienia = new Intent(this, IntentUstawienia.class);
+            startActivity(intentUstawienia);
+        } if (itemId == R.id.log_out){
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

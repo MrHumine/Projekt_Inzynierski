@@ -16,16 +16,17 @@ public class FragmentPreferences extends PreferenceFragmentCompat {
 
         SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
         updateTheme(sharedPreferences);
-        updateFontSize(sharedPreferences);
+//        updateFontSize(sharedPreferences);
         SettingsManager.applyTheme(sharedPreferences);
 
         sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences1, key) -> {
             if (key.equals("dark_mode")) {
                 updateTheme(sharedPreferences1);
-            } else if (key.equals("font_size")) {
-                updateFontSize(sharedPreferences1);
-
             }
+//            else if (key.equals("font_size")) {
+//                updateFontSize(sharedPreferences1);
+//
+//            }
         });
         try {
 //            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -44,7 +45,7 @@ private void updateTheme(SharedPreferences sharedPreferences){
         }
 }
 
-    private void updateFontSize(SharedPreferences sharedPreferences){
-        int fontSize = sharedPreferences.getInt("font_size", 16);
-    }
+//    private void updateFontSize(SharedPreferences sharedPreferences){
+//        int fontSize = sharedPreferences.getInt("font_size", 16);
+//    }
 }
