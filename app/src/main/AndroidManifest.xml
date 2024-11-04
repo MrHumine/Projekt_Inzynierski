@@ -14,7 +14,7 @@
         android:theme="@style/Theme.InzynierskiProjekt"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".Menu"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".IntentLogin"></activity>
         <activity android:name=".IntentRegister"></activity>
-        <activity android:name=".Menu"></activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".IntentUstawienia"></activity>
     </application>
     <uses-permission

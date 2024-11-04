@@ -17,6 +17,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
 import com.google.firebase.FirebaseApp;
 import com.example.inzynierskiprojekt.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Menu extends AppCompatActivity {
     private FragmentManager fragmentManager;
@@ -24,16 +26,39 @@ public class Menu extends AppCompatActivity {
     private FragmentListOfFriends fragmentListOfFriends;
     private FragmentSettings fragmentSettings;
     private FragmentPreferences fragmentPreferences;
+    private FirebaseAuth mAuth;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser currentUser) {
+        if(currentUser == null){
+            Intent MainAcitvity = new Intent(this, MainActivity.class);
+            startActivity(MainAcitvity);
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
+        mAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SettingsManager.applyTheme(sharedPreferences);
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            currentUser.reload();
+        }
 
         fragmentManager = getSupportFragmentManager();
         fragmentAddFriend = new FragmentAddFriend();
@@ -106,6 +131,9 @@ public class Menu extends AppCompatActivity {
             Intent intentUstawienia = new Intent(this, IntentUstawienia.class);
             startActivity(intentUstawienia);
         } if (itemId == R.id.log_out){
+            Intent mainActivity = new Intent(this, MainActivity.class);
+            FirebaseAuth.getInstance().signOut();
+            startActivity(mainActivity);
             finish();
         }
 

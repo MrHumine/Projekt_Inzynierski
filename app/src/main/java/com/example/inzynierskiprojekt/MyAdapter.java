@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -20,18 +21,18 @@ import java.util.ArrayList;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    Context conext;
+    Context context;
     ArrayList<FriendsData> list;
 
-    public MyAdapter(Context conext, ArrayList<FriendsData> arrayList) {
-        this.conext = conext;
+    public MyAdapter(Context context, ArrayList<FriendsData> arrayList) {
+        this.context = context;
         this.list = arrayList;
     }
 
     @NonNull
     @Override
     public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(conext).inflate(R.layout.item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -84,7 +85,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         list.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, getItemCount());
-        DatabaseReference friendReference = FirebaseDatabase.getInstance("https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("friends").child(id);
+        String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference friendReference = FirebaseDatabase.getInstance("https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Friends")
+                .child(userUid)
+                .child(id);
         friendReference.removeValue().addOnCompleteListener(task ->{
             if (task.isSuccessful()) {
                 Log.d("Firebase", "Element usuniety z bazy");

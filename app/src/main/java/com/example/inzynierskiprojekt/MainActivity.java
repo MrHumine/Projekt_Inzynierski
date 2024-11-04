@@ -19,20 +19,26 @@ import androidx.preference.PreferenceManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    FrameLayout frameLayout;
     Button buttonLogin;
     Button buttonRegister;
+    static MainActivity mainActivity;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_main);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        mainActivity = this;
+
 
         Toolbar menuToolbar = (Toolbar) findViewById(R.id.toolbar_menu);
         setSupportActionBar(menuToolbar);
@@ -51,7 +57,13 @@ public class MainActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener( (view) -> {
             startActivity(intentRegister);
         });
+
     }
+
+    static MainActivity getInstance(){
+        return mainActivity;
+    };
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {

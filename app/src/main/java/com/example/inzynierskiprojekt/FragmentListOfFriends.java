@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,31 +23,36 @@ import java.util.ArrayList;
 
 public class FragmentListOfFriends extends Fragment {
     RecyclerView recyclerView;
-    DatabaseReference database;
     ArrayList<FriendsData> list;
+    private DatabaseReference dataBase;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         recyclerView = view.findViewById(R.id.recycleViewInList);
-        database = FirebaseDatabase.getInstance("https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("friends");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         SettingsManager.applyTheme(sharedPreferences);
 
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String userUid = currentUser.getUid();
+
+        dataBase = FirebaseDatabase.getInstance("https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("Friends")
+                .child(userUid);
+
         list = new ArrayList<>();
         MyAdapter MyAdapter = new MyAdapter(getContext(), list);
         recyclerView.setAdapter(MyAdapter);
 
-        database.addValueEventListener(new ValueEventListener() {
+        dataBase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-                    String id = dataSnapshot.getKey();
                     FriendsData friendsData = dataSnapshot.getValue(FriendsData.class);
-                    friendsData.setId(id);
+                    friendsData.setId(dataSnapshot.getKey());
                     list.add(friendsData);
                 }
                 MyAdapter.notifyDataSetChanged();

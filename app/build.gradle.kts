@@ -37,6 +37,7 @@ android {
 dependencies {
     implementation("androidx.navigation:navigation-fragment:2.8.2")
     implementation("androidx.navigation:navigation-ui:2.8.2")
+    implementation(libs.firebase.auth)
     val nav_version = "2.5.3"
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
@@ -51,4 +52,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.preference:preference:1.1.1")
+    implementation ("com.google.firebase:firebase-auth:23.1.0")
 }
