@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +44,10 @@ public class FragmentAddFriend extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        updateUI(currentUser);
+        String userUid = currentUser.getUid();
+
         buttonAdd = view.findViewById(R.id.button_add_description_creating_new_profile);
 
         textInputEditTextName = view.findViewById(R.id.text_input_add_name);
@@ -62,8 +65,6 @@ public class FragmentAddFriend extends Fragment {
         textViewError.setLayoutParams(params);
         textViewError.setVisibility(View.INVISIBLE);
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        String userUid = currentUser.getUid();
 
 
         dataBase = FirebaseDatabase.getInstance("https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Friends").child(userUid);
@@ -80,20 +81,20 @@ public class FragmentAddFriend extends Fragment {
 
             String userId = dataBase.push().getKey();
 
-            FriendsData friendData = new FriendsData(userId, name, hair, eyes, character, localization, skin, height, body);
+            FriendsData friendData = new FriendsData(userId, name, localization, character, hair, eyes, skin, height, body);
             if (!name.isEmpty() || !localization.isEmpty() || !hair.isEmpty() || !eyes.isEmpty() ||
                     !character.isEmpty() || !body.isEmpty() || !skin.isEmpty() || !height.isEmpty()) {
                 if (userId != null) {
                     dataBase.child(userId).setValue(friendData)
                             .addOnSuccessListener(aVoid -> {
                                 textInputEditTextName.setText("");
-                                textInputEditTextEyes.setText("");
+                                textInputEditTextLocalization.setText("");
                                 textInputEditTextDescription.setText("");
                                 textInputEditTextHair.setText("");
-                                textInputEditTextLocalization.setText("");
-                                textInputEditTextBody.setText("");
+                                textInputEditTextEyes.setText("");
                                 textInputEditTextSkin.setText("");
                                 textInputEditTextHeight.setText("");
+                                textInputEditTextBody.setText("");
 
                             }).addOnFailureListener(e -> {
                                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
@@ -124,4 +125,13 @@ public class FragmentAddFriend extends Fragment {
         super(R.layout.fragment_add_friend);
 
     }
+
+    private void updateUI(FirebaseUser currentUser) {
+        if(currentUser == null){
+            Intent MainAcitvity = new Intent(getContext(), MainActivity.class);
+            startActivity(MainAcitvity);
+            getActivity().finish();
+        }
+    }
+
 }

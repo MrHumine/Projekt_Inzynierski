@@ -98,27 +98,7 @@ public class Menu extends AppCompatActivity {
             ft.commit();
         });
 
-//        button3.setOnClickListener((view) ->{
-//            FragmentTransaction ft = fragmentManager.beginTransaction();
-//            ft.replace(R.id.frameLayoutMainMenu, fragmentPreferences);
-//            ft.commit();});
-
     }
-
-
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        SharedPreferences sharedPreferences = getPreferenceManager().getSharedPreferences();
-//        sharedPreferences.registerOnSharedPreferenceChangeListener((sharedPreferences1, key) -> {
-//            if (key.equals("dark_mode")) {
-//                updateTheme(sharedPreferences1);
-//            } else if (key.equals("font_size")) {
-//                updateFontSize(sharedPreferences1);
-//
-//            }
-//        });
-//    }
 
 
     @Override

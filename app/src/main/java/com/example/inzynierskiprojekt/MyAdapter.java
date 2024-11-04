@@ -64,6 +64,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         TextView height;
         TextView body;
         Button buttonDelete;
+        Button buttonEdit;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.name);
@@ -75,8 +76,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             height = itemView.findViewById(R.id.textViewHeight);
             body = itemView.findViewById(R.id.textViewBody);
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
+            buttonEdit = itemView.findViewById(R.id.buttonEdit);
+
             buttonDelete.setOnClickListener(view -> {
                removeItem(getAdapterPosition(), list.get(getAdapterPosition()).getId());
+            });
+
+            buttonEdit.setOnClickListener(view -> {
+
             });
         }
     }
