@@ -31,9 +31,8 @@ public class Menu extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        mAuth = FirebaseAuth.getInstance();
+
     }
 
     private void updateUI(FirebaseUser currentUser) {
@@ -49,13 +48,14 @@ public class Menu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
-        mAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(this);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SettingsManager.applyTheme(sharedPreferences);
 
-        FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             currentUser.reload();
         }
@@ -63,43 +63,41 @@ public class Menu extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragmentAddFriend = new FragmentAddFriend();
         fragmentListOfFriends = new FragmentListOfFriends();
-        fragmentSettings = new FragmentSettings();
-        fragmentPreferences = new FragmentPreferences();
 
         Toolbar menuToolbar = (Toolbar) findViewById(R.id.toolbar_menu);
         setSupportActionBar(menuToolbar);
 
-
-
-
         Button button1 = (Button) findViewById(R.id.buttonDodajPrzyjaciela);
         Button button2 = (Button) findViewById(R.id.buttonListaPrzyjaciol);
-//        Button button3 = (Button) findViewById(R.id.buttonOpcje);
 
         if(savedInstanceState == null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.frameLayoutMainMenu, fragmentAddFriend);
+            fragmentTransaction.replace(R.id.frameLayoutMainMenu, fragmentAddFriend, "add_friends");
             fragmentTransaction.commit();
         } else {
-            fragmentAddFriend = (FragmentAddFriend) fragmentManager.findFragmentByTag("add_friend");
-            fragmentListOfFriends = (FragmentListOfFriends) fragmentManager.findFragmentByTag("list_of_freinds");
-            fragmentSettings = (FragmentSettings) fragmentManager.findFragmentByTag("preferences");
+            fragmentAddFriend = (FragmentAddFriend) fragmentManager.findFragmentByTag("add_friends");
+            fragmentListOfFriends = (FragmentListOfFriends) fragmentManager.findFragmentByTag("list_of_friends");
         }
 
         button1.setOnClickListener(View -> {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.frameLayoutMainMenu, fragmentAddFriend);
+            if(fragmentAddFriend == null){
+                fragmentAddFriend = new FragmentAddFriend();
+            }
+            ft.replace(R.id.frameLayoutMainMenu, fragmentAddFriend, "add_friends");
             ft.commit();
         });
 
         button2.setOnClickListener(View -> {
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends);
+            if (fragmentListOfFriends == null){
+                fragmentListOfFriends = new FragmentListOfFriends();
+            }
+            ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
             ft.commit();
         });
 
     }
-
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -107,7 +105,6 @@ public class Menu extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.settings){
-//            Toast.makeText(this, "Ustawienia" , Toast.LENGTH_SHORT).show();
             Intent intentUstawienia = new Intent(this, IntentUstawienia.class);
             startActivity(intentUstawienia);
         } if (itemId == R.id.log_out){
@@ -120,7 +117,6 @@ public class Menu extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
 
@@ -128,6 +124,5 @@ public class Menu extends AppCompatActivity {
         menuInflater.inflate(R.menu.item, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 
 }

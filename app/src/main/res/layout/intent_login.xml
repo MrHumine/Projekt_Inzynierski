@@ -24,7 +24,10 @@
             android:layout_marginTop="24dp"
             android:ems="10"
             android:hint="Enter email"
-            android:inputType="text" />
+            android:inputType="text"
+            app:cardElevation="10dp"
+            app:cardCornerRadius="8dp"
+            android:layout_margin="10dp"/>
         <TextView
             android:id="@+id/text_view_login"
             android:layout_width="wrap_content"
@@ -38,7 +41,10 @@
             android:layout_marginTop="24dp"
             android:ems="10"
             android:hint="Enter password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            app:cardElevation="10dp"
+            app:cardCornerRadius="8dp"
+            android:layout_margin="10dp"/>
         <TextView
             android:id="@+id/text_view_password"
             android:layout_width="wrap_content"
@@ -52,7 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:onClick="loginUser"
-            android:text="Login" />
+            android:text="Login"
+            android:background="@drawable/shape_button"/>
         <TextView
             android:id="@+id/text_view_wrong"
             android:layout_width="wrap_content"

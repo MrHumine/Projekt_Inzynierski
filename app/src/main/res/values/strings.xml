@@ -2,4 +2,12 @@
     <string name="app_name">InzynierskiProjekt</string>
     <string name="action_settings">settings</string>
     <string name="action_log_out">Log Out</string>
+    <string name="localization">Skąd się znamy:</string>
+    <string name="charakter">Charakter:</string>
+    <string name="imie_pseudonim">Imie/Pseudonim:</string>
+    <string name="kolor_w_os_w">Kolor włosów:</string>
+    <string name="kolor_oczu">Kolor oczu:</string>
+    <string name="skin">Odcień skóry:</string>
+    <string name="height">Wzrost:</string>
+    <string name="Body">Sylwetka:</string>
 </resources>

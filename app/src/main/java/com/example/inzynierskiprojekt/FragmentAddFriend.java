@@ -30,12 +30,6 @@ public class FragmentAddFriend extends Fragment {
     TextInputEditText textInputEditTextSkin;
     TextInputEditText textInputEditTextHeight;
     TextView textViewError;
-
-//    TextView textViewName;
-//    TextView textViewLocalization;
-//    TextView textViewHairColour;
-//    TextView textViewEyesColour;
-//    TextView textViewDescription;
     Button buttonAdd;
     private DatabaseReference dataBase;
     private FirebaseAuth mAuth;
@@ -64,8 +58,6 @@ public class FragmentAddFriend extends Fragment {
         params.height = 0;
         textViewError.setLayoutParams(params);
         textViewError.setVisibility(View.INVISIBLE);
-
-
 
         dataBase = FirebaseDatabase.getInstance("https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Friends").child(userUid);
 
