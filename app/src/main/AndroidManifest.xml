@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -13,25 +12,34 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InzynierskiProjekt"
         tools:targetApi="31">
+
         <activity
             android:name=".Menu"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
+
             <intent-filter>
+
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+
             </intent-filter>
         </activity>
-        <activity android:name=".IntentLogin"></activity>
-        <activity android:name=".IntentRegister"></activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".IntentUstawienia"></activity>
+
+        <activity android:name=".IntentLogin" />
+        <activity android:name=".IntentRegister" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".IntentUstawienia" />
+        <profileable android:shell="true" />
     </application>
+
     <uses-permission
         android:name="android.permission.INTERNET"/>
+
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
 
 </manifest>

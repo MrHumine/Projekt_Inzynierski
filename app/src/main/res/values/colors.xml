@@ -10,10 +10,11 @@
     <color name="grey">#808080</color>
     <color name="orange">#FF7700</color>
     <color name="primaryColorLight">#CBEAA6</color>
-    <color name="primaryDarkColorLight">#63264A</color>
+    <color name="primaryDarkColorLight">#C0D684</color>
     <color name="primaryColorDark">#3D0B37</color>
     <color name="primaryDarkColorDark">#501941</color>
     <color name="backgroundDark">#121212</color>
     <color name="backgroundLight">#F3F9D2</color>
     <color name="menuForButtons">#C0D684</color>
+    <color name="additionalColout">#63264A</color>
 </resources>

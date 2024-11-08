@@ -27,7 +27,8 @@
             android:inputType="text"
             app:cardElevation="10dp"
             app:cardCornerRadius="8dp"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:textColor="?attr/colorSecondary"/>
         <TextView
             android:id="@+id/text_view_login"
             android:layout_width="wrap_content"
@@ -41,6 +42,7 @@
             android:layout_marginTop="24dp"
             android:ems="10"
             android:hint="Enter password"
+            android:textColor="?attr/colorSecondary"
             android:inputType="textPassword"
             app:cardElevation="10dp"
             app:cardCornerRadius="8dp"

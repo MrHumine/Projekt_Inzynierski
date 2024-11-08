@@ -4,6 +4,7 @@
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColorLight</item>
         <item name="android:windowBackground">@color/backgroundLight</item>
+        <item name="colorSecondary">@color/black</item>
     </style>
 
     <style name="Theme.InzynierskiProjekt" parent="Base.Theme.InzynierskiProjekt" />

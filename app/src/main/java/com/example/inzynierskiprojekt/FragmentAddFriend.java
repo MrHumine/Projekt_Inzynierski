@@ -59,7 +59,8 @@ public class FragmentAddFriend extends Fragment {
         textViewError.setLayoutParams(params);
         textViewError.setVisibility(View.INVISIBLE);
 
-        dataBase = FirebaseDatabase.getInstance("https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Friends").child(userUid);
+        dataBase = FirebaseDatabase.getInstance("https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("Friends").child(userUid);
 
         buttonAdd.setOnClickListener(View -> {
             String name = String.valueOf(textInputEditTextName.getText());

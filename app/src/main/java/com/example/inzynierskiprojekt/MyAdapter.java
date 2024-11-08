@@ -93,7 +93,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, getItemCount());
         String userUid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        DatabaseReference friendReference = FirebaseDatabase.getInstance("https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/").getReference("Friends")
+        DatabaseReference friendReference = FirebaseDatabase
+                .getInstance("https://inzynierskiprojekt-c436a-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("Friends")
                 .child(userUid)
                 .child(id);
         friendReference.removeValue().addOnCompleteListener(task ->{

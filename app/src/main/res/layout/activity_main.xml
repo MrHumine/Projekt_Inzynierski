@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/backgroundColor"
+    android:background="?attr/colorPrimary"
     tools:context=".MainActivity">
     <include
         android:id="@+id/toolbar_menu"
@@ -26,12 +26,16 @@
             android:id="@+id/buttonLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Logowanie"></Button>
+            android:text="Logowanie"
+            android:textColor="?attr/colorSecondary"
+            android:background="?attr/colorPrimaryVariant"></Button>
         <Button
             android:id="@+id/buttonRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rejestracja"></Button>
+            android:text="Rejestracja"
+            android:textColor="?attr/colorSecondary"
+            android:background="?attr/colorPrimaryVariant"></Button>
     </LinearLayout>
 
 

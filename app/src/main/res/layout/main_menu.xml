@@ -13,7 +13,7 @@
         android:id="@+id/frameLayoutMainMenu"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/backgroundColor"
+        android:background="?attr/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintTop_toBottomOf="@id/toolbar_menu">
     </FrameLayout>
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/menuForButtons"
+        android:background="?attr/colorPrimaryVariant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -41,6 +41,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Dodaj kolejną osobę"
+            android:textColor="?attr/colorSecondary"
             android:background="@drawable/shape_button"
             android:backgroundTint="@color/orange"
             android:layout_margin="10dp"></Button>
@@ -50,6 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:textColor="?attr/colorSecondary"
             android:text="Lista przyjaciół"
             android:background="@drawable/shape_button"
             android:layout_margin="10dp"></Button>
