@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,6 +26,8 @@ public class FragmentListOfFriends extends Fragment {
     RecyclerView recyclerView;
     ArrayList<FriendsData> list;
     private DatabaseReference dataBase;
+    private SearchView searchView;
+    MyAdapter myAdapter;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -43,8 +46,25 @@ public class FragmentListOfFriends extends Fragment {
                 .child(userUid);
 
         list = new ArrayList<>();
-        MyAdapter MyAdapter = new MyAdapter(getContext(), list);
-        recyclerView.setAdapter(MyAdapter);
+        myAdapter = new MyAdapter(getContext(), list);
+        recyclerView.setAdapter(myAdapter);
+
+        searchView = view.findViewById(R.id.searchViewInList);
+        searchView.clearFocus();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return true;
+            }
+        });
+
 
         dataBase.addValueEventListener(new ValueEventListener() {
             @Override
@@ -55,7 +75,7 @@ public class FragmentListOfFriends extends Fragment {
                     friendsData.setId(dataSnapshot.getKey());
                     list.add(friendsData);
                 }
-                MyAdapter.notifyDataSetChanged();
+                myAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -69,4 +89,24 @@ public class FragmentListOfFriends extends Fragment {
         super(R.layout.fragment_list_of_friends);
     }
 
+    private void filterList(String newText){
+        ArrayList<FriendsData> filteredList = new ArrayList<>();
+        for (FriendsData friendsData : list){
+
+            if (friendsData.body.equalsIgnoreCase(newText) ||
+                    friendsData.character.equalsIgnoreCase(newText) ||
+                    friendsData.eyes.equalsIgnoreCase(newText) ||
+                    friendsData.hair.equalsIgnoreCase(newText) ||
+                    friendsData.localization.equalsIgnoreCase(newText) ||
+                    friendsData.name.equalsIgnoreCase(newText) ||
+                    friendsData.skin.equalsIgnoreCase(newText)){
+                filteredList.add(friendsData);
+            }
+        }
+        if (filteredList.isEmpty()){
+//            Toast.makeText(getContext(), "Brak wyników, musisz być bardziej precyzyjny mordo", Toast.LENGTH_SHORT).show();
+        } else {
+            myAdapter.setFilteredList(filteredList);
+        }
+    }
 }

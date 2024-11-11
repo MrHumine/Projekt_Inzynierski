@@ -29,6 +29,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         this.list = arrayList;
     }
 
+    public void setFilteredList(ArrayList<FriendsData> filteredList){
+        this.list = filteredList;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public MyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
