@@ -7,7 +7,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +14,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.PreferenceManager;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.FirebaseApp;
 import com.example.inzynierskiprojekt.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +28,7 @@ public class Menu extends AppCompatActivity {
     private FragmentSettings fragmentSettings;
     private FragmentPreferences fragmentPreferences;
     private FirebaseAuth mAuth;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     public void onStart() {
@@ -48,6 +50,8 @@ public class Menu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
+
+
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -61,6 +65,8 @@ public class Menu extends AppCompatActivity {
             currentUser.reload();
         }
 
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
         fragmentManager = getSupportFragmentManager();
         fragmentAddFriend = new FragmentAddFriend();
         fragmentListOfFriends = new FragmentListOfFriends();
@@ -68,8 +74,8 @@ public class Menu extends AppCompatActivity {
         Toolbar menuToolbar = (Toolbar) findViewById(R.id.toolbar_menu);
         setSupportActionBar(menuToolbar);
 
-        Button button1 = (Button) findViewById(R.id.buttonDodajPrzyjaciela);
-        Button button2 = (Button) findViewById(R.id.buttonListaPrzyjaciol);
+//        Button button1 = (Button) findViewById(R.id.buttonDodajPrzyjaciela);
+//        Button button2 = (Button) findViewById(R.id.buttonListaPrzyjaciol);
 
         if(savedInstanceState == null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -80,24 +86,44 @@ public class Menu extends AppCompatActivity {
             fragmentListOfFriends = (FragmentListOfFriends) fragmentManager.findFragmentByTag("list_of_friends");
         }
 
-        button1.setOnClickListener(View -> {
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            if(fragmentAddFriend == null){
-                fragmentAddFriend = new FragmentAddFriend();
+        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                if(fragmentAddFriend == null){
+                    fragmentAddFriend = new FragmentAddFriend();
+                }
+
+                    if(R.id.add_friend_navigation == item.getItemId()) {
+                        ft.replace(R.id.frameLayoutMainMenu, fragmentAddFriend, "add_friends");
+                    } else if(R.id.list_of_friends_navigation == item.getItemId()) {
+                        ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
+                    } else if(R.id.map_navigation == item.getItemId()) {
+                        ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
+                    }
+                ft.commit();
+                return true;
             }
-            ft.replace(R.id.frameLayoutMainMenu, fragmentAddFriend, "add_friends");
-            ft.commit();
         });
 
-        button2.setOnClickListener(View -> {
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            if (fragmentListOfFriends == null){
-                fragmentListOfFriends = new FragmentListOfFriends();
-            }
-            ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
-            ft.commit();
-        });
-
+//        button1.setOnClickListener(View -> {
+//            FragmentTransaction ft = fragmentManager.beginTransaction();
+//            if(fragmentAddFriend == null){
+//                fragmentAddFriend = new FragmentAddFriend();
+//            }
+//            ft.replace(R.id.frameLayoutMainMenu, fragmentAddFriend, "add_friends");
+//            ft.commit();
+//        });
+//
+//        button2.setOnClickListener(View -> {
+//            FragmentTransaction ft = fragmentManager.beginTransaction();
+//            if (fragmentListOfFriends == null){
+//                fragmentListOfFriends = new FragmentListOfFriends();
+//            }
+//            ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
+//            ft.commit();
+//        });
+//
     }
 
     @Override
