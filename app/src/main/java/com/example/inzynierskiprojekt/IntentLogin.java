@@ -61,8 +61,6 @@ public class IntentLogin extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SettingsManager.applyTheme(sharedPreferences);
         buttonLogin.setOnClickListener((view) -> {
-//            startActivity(intentMainMenu);
-//            finish();
             email = editTextEmail.getText().toString();
             password = editTextPassword.getText().toString();
             if(email.isEmpty() || password.isEmpty()){
@@ -70,22 +68,17 @@ public class IntentLogin extends AppCompatActivity {
             }   else {
 
                 mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-                                    // Sign in success, update UI with the signed-in user's information
-                                    Log.d(TAG, "signInWithEmail:success");
-                                    FirebaseUser user = mAuth.getCurrentUser();
-                                    updateUI(user);
-                                } else {
-                                    // If sign in fails, display a message to the user.
-                                    Log.w(TAG, "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(IntentLogin.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
-                                    updateUI(null);
-                                    textViewWrong.setText("Niepoprawny login lub hasło");
-                                }
+                        .addOnCompleteListener(this, task -> {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI(user);
+                            } else {
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(IntentLogin.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                updateUI(null);
+                                textViewWrong.setText("Niepoprawny login lub hasło");
                             }
                         });
 

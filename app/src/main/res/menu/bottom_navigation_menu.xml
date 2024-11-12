@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/add_friend_navigation"
+        android:icon="@drawable/baseline_add_box_24"
+        android:title="Dodaj przyjaciela"/>
+
+    <item
+        android:id="@+id/list_of_friends_navigation"
+        android:icon="@drawable/baseline_list_24"
+        android:title="Lista przyjaciół"/>
+
+    <item
+        android:id="@+id/map_navigation"
+        android:icon="@drawable/baseline_approval_24"
+        android:title="Mapa przyjaciół"/>
+
+</menu>
