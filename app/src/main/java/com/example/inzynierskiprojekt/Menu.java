@@ -86,24 +86,38 @@ public class Menu extends AppCompatActivity {
             fragmentListOfFriends = (FragmentListOfFriends) fragmentManager.findFragmentByTag("list_of_friends");
         }
 
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                if(fragmentAddFriend == null){
-                    fragmentAddFriend = new FragmentAddFriend();
-                }
-
-                    if(R.id.add_friend_navigation == item.getItemId()) {
-                        ft.replace(R.id.frameLayoutMainMenu, fragmentAddFriend, "add_friends");
-                    } else if(R.id.list_of_friends_navigation == item.getItemId()) {
-                        ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
-                    } else if(R.id.map_navigation == item.getItemId()) {
-                        ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
-                    }
-                ft.commit();
-                return true;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            if(fragmentAddFriend == null){
+                fragmentAddFriend = new FragmentAddFriend();
             }
+
+                if(R.id.add_friend_navigation == item.getItemId()) {
+
+                    if(fragmentAddFriend == null){
+                        fragmentAddFriend = new FragmentAddFriend();
+                    }
+
+                    ft.replace(R.id.frameLayoutMainMenu, fragmentAddFriend, "add_friends");
+
+                } else if(R.id.list_of_friends_navigation == item.getItemId()) {
+
+                    if (fragmentListOfFriends == null){
+                        fragmentListOfFriends = new FragmentListOfFriends();
+
+                    }
+                    ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
+
+                } else if(R.id.map_navigation == item.getItemId()) {
+
+                    if(fragmentAddFriend == null){
+                        fragmentAddFriend = new FragmentAddFriend();
+                    }
+
+                    ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
+                }
+            ft.commit();
+            return true;
         });
 
 //        button1.setOnClickListener(View -> {
