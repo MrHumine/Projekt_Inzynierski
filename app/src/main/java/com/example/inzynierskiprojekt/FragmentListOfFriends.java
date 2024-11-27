@@ -57,7 +57,6 @@ public class FragmentListOfFriends extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 filterList(newText);
@@ -104,7 +103,7 @@ public class FragmentListOfFriends extends Fragment {
             }
         }
         if (filteredList.isEmpty()){
-//            Toast.makeText(getContext(), "Brak wyników, musisz być bardziej precyzyjny mordo", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Brak wyników, musisz być bardziej precyzyjny", Toast.LENGTH_SHORT).show();
         } else {
             myAdapter.setFilteredList(filteredList);
         }

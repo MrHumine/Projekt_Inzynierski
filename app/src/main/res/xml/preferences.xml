@@ -11,13 +11,6 @@
         android:summary="Enable or disable dark mode"
         android:defaultValue="false"/>
 
-<!--    <SeekBarPreference-->
-<!--        android:key="font_size"-->
-<!--        android:title="Font Size"-->
-<!--        android:summary="Adjust the font size"-->
-<!--        android:defaultValue="16"-->
-<!--        android:max="32"-->
-<!--        android:min="8"/>-->
     </PreferenceCategory>
 
 

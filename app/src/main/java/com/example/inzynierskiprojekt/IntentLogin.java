@@ -17,16 +17,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.PreferenceManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class IntentLogin extends AppCompatActivity {
 
-    Button buttonLogin;
+    private Button buttonLogin;
     private FirebaseAuth  mAuth;
     private EditText editTextEmail;
     private EditText editTextPassword;
@@ -49,23 +46,23 @@ public class IntentLogin extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         FirebaseApp.initializeApp(this);
 
-        editTextEmail = (EditText) findViewById(R.id.login_email_edit_text);
-        editTextPassword = (EditText) findViewById(R.id.login_password_edit_text);
-
+        editTextEmail = findViewById(R.id.login_email_edit_text);
+        editTextPassword = findViewById(R.id.login_password_edit_text);
         textViewLogin = findViewById(R.id.text_view_login);
         textViewPassword = findViewById(R.id.text_view_password);
         textViewWrong = findViewById(R.id.text_view_wrong);
 
+        buttonLogin = findViewById(R.id.login_button);
 
-        buttonLogin = (Button) findViewById(R.id.login_button);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SettingsManager.applyTheme(sharedPreferences);
+
         buttonLogin.setOnClickListener((view) -> {
             email = editTextEmail.getText().toString();
             password = editTextPassword.getText().toString();
             if(email.isEmpty() || password.isEmpty()){
                 Toast.makeText(this, "Uzupełnij brakujące dane", Toast.LENGTH_SHORT).show();
-            }   else {
+            } else {
 
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this, task -> {
@@ -82,7 +79,7 @@ public class IntentLogin extends AppCompatActivity {
                             }
                         });
 
-            }
+                    }
 
             if(email.isEmpty()){
                 textViewLogin.setText("Uzupełnij email");
@@ -94,9 +91,6 @@ public class IntentLogin extends AppCompatActivity {
             } else {
                 textViewPassword.setText("");
             }
-
-
-
 
         });
 
@@ -118,14 +112,12 @@ public class IntentLogin extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.settings){
-//            Toast.makeText(this, "Ustawienia" , Toast.LENGTH_SHORT).show();
             Intent intentUstawienia = new Intent(this, IntentUstawienia.class);
             startActivity(intentUstawienia);
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {

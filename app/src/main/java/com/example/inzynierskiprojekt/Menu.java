@@ -25,8 +25,6 @@ public class Menu extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentAddFriend fragmentAddFriend;
     private FragmentListOfFriends fragmentListOfFriends;
-    private FragmentSettings fragmentSettings;
-    private FragmentPreferences fragmentPreferences;
     private FirebaseAuth mAuth;
     private BottomNavigationView bottomNavigationView;
 
@@ -50,8 +48,6 @@ public class Menu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
-
-
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -71,11 +67,8 @@ public class Menu extends AppCompatActivity {
         fragmentAddFriend = new FragmentAddFriend();
         fragmentListOfFriends = new FragmentListOfFriends();
 
-        Toolbar menuToolbar = (Toolbar) findViewById(R.id.toolbar_menu);
+        Toolbar menuToolbar = findViewById(R.id.toolbar_menu);
         setSupportActionBar(menuToolbar);
-
-//        Button button1 = (Button) findViewById(R.id.buttonDodajPrzyjaciela);
-//        Button button2 = (Button) findViewById(R.id.buttonListaPrzyjaciol);
 
         if(savedInstanceState == null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -91,17 +84,13 @@ public class Menu extends AppCompatActivity {
             if(fragmentAddFriend == null){
                 fragmentAddFriend = new FragmentAddFriend();
             }
-
                 if(R.id.add_friend_navigation == item.getItemId()) {
-
                     if(fragmentAddFriend == null){
                         fragmentAddFriend = new FragmentAddFriend();
                     }
-
                     ft.replace(R.id.frameLayoutMainMenu, fragmentAddFriend, "add_friends");
 
                 } else if(R.id.list_of_friends_navigation == item.getItemId()) {
-
                     if (fragmentListOfFriends == null){
                         fragmentListOfFriends = new FragmentListOfFriends();
 
@@ -109,40 +98,18 @@ public class Menu extends AppCompatActivity {
                     ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
 
                 } else if(R.id.map_navigation == item.getItemId()) {
-
                     if(fragmentAddFriend == null){
                         fragmentAddFriend = new FragmentAddFriend();
                     }
-
                     ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
                 }
             ft.commit();
             return true;
         });
-
-//        button1.setOnClickListener(View -> {
-//            FragmentTransaction ft = fragmentManager.beginTransaction();
-//            if(fragmentAddFriend == null){
-//                fragmentAddFriend = new FragmentAddFriend();
-//            }
-//            ft.replace(R.id.frameLayoutMainMenu, fragmentAddFriend, "add_friends");
-//            ft.commit();
-//        });
-//
-//        button2.setOnClickListener(View -> {
-//            FragmentTransaction ft = fragmentManager.beginTransaction();
-//            if (fragmentListOfFriends == null){
-//                fragmentListOfFriends = new FragmentListOfFriends();
-//            }
-//            ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
-//            ft.commit();
-//        });
-//
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         int itemId = item.getItemId();
 
         if (itemId == R.id.settings){
@@ -154,7 +121,6 @@ public class Menu extends AppCompatActivity {
             startActivity(mainActivity);
             finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 

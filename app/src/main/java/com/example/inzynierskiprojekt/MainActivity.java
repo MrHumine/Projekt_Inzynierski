@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
 
         if (itemId == R.id.settings){
-//            Toast.makeText(this, "Ustawienia" , Toast.LENGTH_SHORT).show();
             Intent intentUstawienia = new Intent(this, IntentUstawienia.class);
             startActivity(intentUstawienia);
         }
