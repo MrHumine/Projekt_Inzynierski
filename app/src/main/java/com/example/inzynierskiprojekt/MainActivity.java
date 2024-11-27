@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.FrameLayout;
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,8 +20,6 @@ public class MainActivity extends AppCompatActivity {
     Button buttonLogin;
     Button buttonRegister;
     static MainActivity mainActivity;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

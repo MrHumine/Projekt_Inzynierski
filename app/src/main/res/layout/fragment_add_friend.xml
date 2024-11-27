@@ -22,14 +22,6 @@
                             android:gravity="center|center_vertical"
                             android:orientation="vertical">
 
-
-                            <TextView
-                                android:id="@+id/textView"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Opisz osobę"
-                                android:textStyle="bold"
-                                android:layout_margin="10dp"/>
                             <TextView
                                 android:id="@+id/textViewError"
                                 android:layout_width="match_parent"
@@ -38,26 +30,53 @@
                                 android:visibility="gone"
                                 android:textColor="@color/red"/>
 
-
-
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp">
 
                             <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:boxBackgroundMode="outline">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/text_input_add_name"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Imie/pseudomin"
+                                    android:maxLines="3"
+                                    android:ellipsize="end"
+                                    android:inputType="textMultiLine"
+                                    android:scrollbars="vertical"
                                     app:cardElevation="10dp"
                                     app:cardCornerRadius="8dp"
-                                    android:layout_margin="10dp"/>
+                                    app:boxBackgroundMode="outline"
+                                    app:boxStrokeColor="?attr/colorSecondary"/>
                             </com.google.android.material.textfield.TextInputLayout>
+                                <ImageView
+                                    android:id="@+id/image_view_name"
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/baseline_audiotrack_24"
+                                    android:padding="8dp">
+                                </ImageView>
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_margin="10dp">
 
                             <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:boxBackgroundMode="outline">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/text_input_add_localization"
@@ -68,10 +87,19 @@
                                     android:ellipsize="end"
                                     android:inputType="textMultiLine"
                                     android:scrollbars="vertical"
-                                    app:cardElevation="10dp"
-                                    app:cardCornerRadius="8dp"
-                                    android:layout_margin="10dp"/>
+                                    app:boxBackgroundMode="outline"
+                                    app:boxStrokeColor="?attr/colorSecondary"/>
+
                             </com.google.android.material.textfield.TextInputLayout>
+                                <ImageView
+                                    android:id="@+id/image_view_localization"
+                                    android:layout_width="55dp"
+                                    android:layout_height="55dp"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/baseline_audiotrack_24"
+                                    android:padding="8dp">
+                                </ImageView>
+                            </LinearLayout>
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -79,39 +107,91 @@
                                 android:text="Charakter"
                                 android:textStyle="bold"
                                 android:layout_margin="10dp"></TextView>
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
                             <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:boxBackgroundMode="outline">>
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/text_input_add_description"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Charakter"
-                                    android:layout_margin="10dp"/>
+                                    android:maxLines="3"
+                                    android:ellipsize="end"
+                                    android:inputType="textMultiLine"
+                                    android:scrollbars="vertical"
+                                    app:cardElevation="10dp"
+                                    app:cardCornerRadius="8dp"
+                                    app:boxBackgroundMode="outline"
+                                    app:boxStrokeColor="?attr/colorSecondary"/>
                             </com.google.android.material.textfield.TextInputLayout>
+
+                            <ImageView
+                                android:id="@+id/image_view_description"
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/baseline_audiotrack_24"
+                                android:padding="8dp">
+                            </ImageView>
+            </LinearLayout>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Wygląd"
                                 android:layout_margin="10dp"
                                 android:textStyle="bold"></TextView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
                             <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:boxBackgroundMode="outline">>
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/text_input_add_hair"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:hint="Kolor włosow"
-                                    android:layout_margin="10dp"/>
+                                    android:maxLines="3"
+                                    android:ellipsize="end"
+                                    android:inputType="textMultiLine"
+                                    android:scrollbars="vertical"
+                                    app:cardElevation="10dp"
+                                    app:cardCornerRadius="8dp"
+                                    app:boxBackgroundMode="outline"
+                                    app:boxStrokeColor="?attr/colorSecondary"/>
                             </com.google.android.material.textfield.TextInputLayout>
 
+                            <ImageView
+                                android:id="@+id/image_view_hair"
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/baseline_audiotrack_24"
+                                android:padding="8dp">
+                            </ImageView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
                             <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:boxBackgroundMode="outline">>
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/text_input_add_eyes"
@@ -120,10 +200,26 @@
                                     android:hint="Kolor oczu"
                                     android:layout_margin="10dp"/>
                             </com.google.android.material.textfield.TextInputLayout>
+                            <ImageView
+                                android:id="@+id/image_view_eyes"
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/baseline_audiotrack_24"
+                                android:padding="8dp">
+                            </ImageView>
 
-                            <com.google.android.material.textfield.TextInputLayout
+            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp">
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:boxBackgroundMode="outline">>
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/text_input_skin"
@@ -131,11 +227,26 @@
                                     android:layout_height="wrap_content"
                                     android:hint="Odcień skóry"
                                     android:layout_margin="10dp"/>
-                            </com.google.android.material.textfield.TextInputLayout>
 
+                            </com.google.android.material.textfield.TextInputLayout>
+                            <ImageView
+                                android:id="@+id/image_view_skin"
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/baseline_audiotrack_24"
+                                android:padding="8dp">
+                            </ImageView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
                             <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:boxBackgroundMode="outline">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/text_input_height"
@@ -144,10 +255,24 @@
                                     android:hint="Wzrost"
                                     android:layout_margin="10dp"/>
                             </com.google.android.material.textfield.TextInputLayout>
-
+                            <ImageView
+                                android:id="@+id/image_view_height"
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/baseline_audiotrack_24"
+                                android:padding="8dp">
+                            </ImageView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp">
                             <com.google.android.material.textfield.TextInputLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent">
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                app:boxBackgroundMode="outline">
 
                                 <com.google.android.material.textfield.TextInputEditText
                                     android:id="@+id/text_input_body"
@@ -156,24 +281,25 @@
                                     android:hint="Sylwetka"
                                     android:layout_margin="10dp"/>
                             </com.google.android.material.textfield.TextInputLayout>
-                            <Button
-                                android:id="@+id/button_add_description_creating_new_profile"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Zapisz"
-                                android:layout_margin="10dp"
-                                android:textColor="?attr/colorSecondary"
-                                android:color="?attr/colorPrimaryVariant"/>
+                            <ImageView
+                                android:id="@+id/image_view_body"
+                                android:layout_width="55dp"
+                                android:layout_height="55dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/baseline_audiotrack_24"
+                                android:padding="8dp">
+                            </ImageView>
+
+            </LinearLayout>
                     </LinearLayout>
-
-<!--                    <LinearLayout-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:gravity="center"-->
-<!--                        android:orientation="horizontal">-->
-
-<!--                    </LinearLayout>-->
-
         </ScrollView>
+        <Button
+            android:id="@+id/button_add_description_creating_new_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Zapisz"
+            android:layout_margin="10dp"
+            android:textColor="?attr/colorSecondary"
+            android:color="?attr/colorPrimaryVariant"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
