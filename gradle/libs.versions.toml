@@ -15,6 +15,7 @@ googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
 firebaseAuth = "23.0.0"
 firebaseFirestore = "25.1.0"
+playServicesMaps = "19.0.0"
 
 [libraries]
 firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth" }
@@ -31,6 +32,7 @@ androidx-benchmark-macro = { group = "androidx.benchmark", name = "benchmark-mac
 my-library = { group = "com.myapplication", name = "mylibrary", version.ref = "my-library" }
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
 
 
 [plugins]

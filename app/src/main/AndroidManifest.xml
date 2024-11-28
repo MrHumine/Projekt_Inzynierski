@@ -32,6 +32,11 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".IntentUstawienia" />
         <profileable android:shell="true" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyD4MqzodAMKj_K4iG21moHdk7KE8IYoIQw" />
+
     </application>
 
     <uses-permission
@@ -39,6 +44,12 @@
 
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission
+        android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
 
 

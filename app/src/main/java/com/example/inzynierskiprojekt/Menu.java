@@ -25,6 +25,7 @@ public class Menu extends AppCompatActivity {
     private FragmentManager fragmentManager;
     private FragmentAddFriend fragmentAddFriend;
     private FragmentListOfFriends fragmentListOfFriends;
+    private FragmentMap fragmentMap;
     private FirebaseAuth mAuth;
     private BottomNavigationView bottomNavigationView;
 
@@ -66,6 +67,7 @@ public class Menu extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragmentAddFriend = new FragmentAddFriend();
         fragmentListOfFriends = new FragmentListOfFriends();
+        fragmentMap = new FragmentMap();
 
         Toolbar menuToolbar = findViewById(R.id.toolbar_menu);
         setSupportActionBar(menuToolbar);
@@ -77,6 +79,7 @@ public class Menu extends AppCompatActivity {
         } else {
             fragmentAddFriend = (FragmentAddFriend) fragmentManager.findFragmentByTag("add_friends");
             fragmentListOfFriends = (FragmentListOfFriends) fragmentManager.findFragmentByTag("list_of_friends");
+            fragmentMap = (FragmentMap) fragmentManager.findFragmentByTag("map");
         }
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -98,10 +101,10 @@ public class Menu extends AppCompatActivity {
                     ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
 
                 } else if(R.id.map_navigation == item.getItemId()) {
-                    if(fragmentAddFriend == null){
-                        fragmentAddFriend = new FragmentAddFriend();
+                    if(fragmentMap == null){
+                        fragmentMap = new FragmentMap();
                     }
-                    ft.replace(R.id.frameLayoutMainMenu, fragmentListOfFriends, "list_of_friends");
+                    ft.replace(R.id.frameLayoutMainMenu, fragmentMap, "map");
                 }
             ft.commit();
             return true;
