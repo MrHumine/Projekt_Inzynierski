@@ -1,5 +1,7 @@
 package com.example.inzynierskiprojekt;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class FriendsData {
     String name;
     String id;
@@ -10,6 +12,7 @@ public class FriendsData {
     String skin;
     String height;
     String body;
+    LatLng preciseLocalization;
 
     public FriendsData() {}
     public FriendsData(String id, String name, String localization, String character, String hair, String eyes, String skin, String height, String body) {
@@ -94,5 +97,11 @@ public class FriendsData {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public LatLng getPreciseLocalization() {return preciseLocalization;
+    }
+
+    public void setPreciseLocalization(LatLng preciseLocalization) {this.preciseLocalization = preciseLocalization;
     }
 }

@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 
 public class FragmentListOfFriends extends Fragment {
+
     RecyclerView recyclerView;
     ArrayList<FriendsData> list;
     private DatabaseReference dataBase;
