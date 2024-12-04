@@ -1,7 +1,6 @@
 package com.example.inzynierskiprojekt;
 
 import static android.app.Activity.RESULT_OK;
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,7 +22,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Locale;
 
 public class FragmentAddFriend extends Fragment {
