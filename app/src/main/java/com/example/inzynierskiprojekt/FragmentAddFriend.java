@@ -192,8 +192,6 @@ public class FragmentAddFriend extends Fragment {
         }
     }
 
-
-
     public void onRequestPermissionResult(int requestCode, @NonNull String[] permission, @NonNull int[] grantResults){
         if(requestCode == REQUEST_CODE_SPEECH_INPUT){
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
