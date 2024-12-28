@@ -60,7 +60,7 @@ public class IntentLogin extends AppCompatActivity {
         buttonLogin.setOnClickListener((view) -> {
             email = editTextEmail.getText().toString();
             password = editTextPassword.getText().toString();
-            if(email.isEmpty() || password.isEmpty()){
+            if(isEmailOrPasswordEmpty(email, password)){
                 Toast.makeText(this, "Uzupełnij brakujące dane", Toast.LENGTH_SHORT).show();
             } else {
 
@@ -96,13 +96,17 @@ public class IntentLogin extends AppCompatActivity {
 
     }
 
+    public static Boolean isEmailOrPasswordEmpty(String email, String password){
+        return email.isEmpty() || password.isEmpty();
+    }
+
     private void updateUI(FirebaseUser user) {
         if(user != null){
-            Intent intentMenu = new Intent(this, Menu.class);
+            Intent menu = new Intent(this, Menu.class);
 
             finish();
-            startActivity(intentMenu);
-            MainActivity.getInstance().finish();
+            startActivity(menu);
+//            MainActivity.getInstance().finish();
         }
     }
 

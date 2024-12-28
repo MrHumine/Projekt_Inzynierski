@@ -16,6 +16,7 @@ firebaseDatabase = "21.0.0"
 firebaseAuth = "23.0.0"
 firebaseFirestore = "25.1.0"
 playServicesMaps = "19.0.0"
+espressoIntents = "3.6.1"
 
 [libraries]
 firebase-ui-auth = { module = "com.firebaseui:firebase-ui-auth", version.ref = "firebaseUiAuth" }
@@ -33,6 +34,7 @@ my-library = { group = "com.myapplication", name = "mylibrary", version.ref = "m
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
+androidx-espresso-intents = { group = "androidx.test.espresso", name = "espresso-intents", version.ref = "espressoIntents" }
 
 
 [plugins]

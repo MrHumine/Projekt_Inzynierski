@@ -1,31 +1,53 @@
 package com.example.inzynierskiprojekt;
 
 import static android.app.Activity.RESULT_OK;
+import static android.content.ContentValues.TAG;
+
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+
+import com.azure.ai.openai.OpenAIClient;
+import com.azure.ai.openai.OpenAIClientBuilder;
+import com.azure.ai.openai.models.ChatChoice;
+import com.azure.ai.openai.models.ChatCompletions;
+import com.azure.ai.openai.models.ChatCompletionsOptions;
+import com.azure.ai.openai.models.ChatRequestMessage;
+import com.azure.ai.openai.models.ChatRequestSystemMessage;
+import com.azure.ai.openai.models.ChatRequestUserMessage;
+import com.azure.ai.openai.models.ChatResponseMessage;
+import com.azure.core.credential.AzureKeyCredential;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class FragmentAddFriend extends Fragment {
-
+    private static final String Tag = "Dodanie";
     TextInputEditText textInputEditTextName;
     ImageView imageViewName;
     TextInputEditText textInputEditTextLocalization;
@@ -48,7 +70,40 @@ public class FragmentAddFriend extends Fragment {
     private FirebaseAuth mAuth;
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     private static final int RECOGNIZER_RESULT = 1;
-
+    private String azureOpenaiKey = "9YcxWe84xST2aI8hYRjcifmi4PaqIQIuoQg7FX8N88MBek8OuSIqJQQJ99ALACHYHv6XJ3w3AAAAACOG8Nzp";
+    private String endpoint = "https://ai-wrx758580291ai465395540385.services.ai.azure.com/";
+    private String deploymentOrModelId = "gpt-4o-mini";
+    private String tmpForSpeech = "";
+    List<ChatRequestMessage> chatMessages = new ArrayList<>();
+    OpenAIClient client = new OpenAIClientBuilder()
+            .endpoint(endpoint)
+            .credential(new AzureKeyCredential(azureOpenaiKey))
+            .buildClient();
+    private final ActivityResultLauncher<Intent> speechLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result ->{
+                if(result.getResultCode() == Activity.RESULT_OK && result.getData() != null){
+                    ArrayList<String> recognizerText = result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    assert recognizerText != null;
+                    tmpForSpeech = recognizerText.get(0);
+                    Log.d(Tag, tmpForSpeech);
+                    textInputEditTextName.setText(tmpForSpeech);
+                    chatMessages.clear();
+                    chatMessages.add(new ChatRequestSystemMessage("Działasz w aplikacji mobilnej, w której jest możliwość zapisywania informacji o przyjaciołach. Przesłany zostanie tobie tekst, który użytkownik powiedział w celu opisania imienia. Twoim zadaniem jest zwrócić wyłącznie imienia lub pseudonimi, który ma opisywać tego przyjaciela. O to ten tekst: " + tmpForSpeech));
+                    ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, new ChatCompletionsOptions(chatMessages));
+                    for (ChatChoice choice : chatCompletions.getChoices()) {
+                        ChatResponseMessage message = choice.getMessage();
+                        Log.d(Tag, message.getContent() + "1");
+                        textInputEditTextName.setText(message.getContent());
+                    }
+                    if(recognizerText.isEmpty()){
+                        Toast.makeText(getContext(), "Nie dualo sie rozpoznac mowy", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Log.d(Tag, "else?");
+                    }
+                }
+            }
+    );
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -93,6 +148,7 @@ public class FragmentAddFriend extends Fragment {
 
 
         buttonAdd.setOnClickListener(View -> {
+
             String name = String.valueOf(textInputEditTextName.getText());
             String localization = String.valueOf(textInputEditTextLocalization.getText());
             String hair = String.valueOf(textInputEditTextHair.getText());
@@ -134,7 +190,9 @@ public class FragmentAddFriend extends Fragment {
 
         imageViewName.setOnClickListener(View -> {
             promptSpeechInput();
+
         });
+
         imageViewLocalization.setOnClickListener(View -> {
 
         });
@@ -163,9 +221,10 @@ public class FragmentAddFriend extends Fragment {
         try {
             Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
             intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+//            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, new Locale("pl", "PL").toString());
             intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Możesz mówić");
-            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
+            speechLauncher.launch(intent);
 
         } catch (ActivityNotFoundException e) {
             Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
@@ -179,7 +238,6 @@ public class FragmentAddFriend extends Fragment {
     }
 
     public FragmentAddFriend() {
-
         super(R.layout.fragment_add_friend);
 
     }
@@ -202,13 +260,8 @@ public class FragmentAddFriend extends Fragment {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        if(requestCode == RECOGNIZER_RESULT && resultCode == RESULT_OK) {
-            assert data != null;
-            String[] text = data.getStringArrayExtra(RecognizerIntent.EXTRA_RESULTS);
 
-        }
-    }
+
+
 
 }

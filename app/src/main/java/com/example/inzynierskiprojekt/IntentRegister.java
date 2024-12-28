@@ -2,6 +2,7 @@ package com.example.inzynierskiprojekt;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class IntentRegister extends AppCompatActivity {
     String password;
     String passwordRe;
     private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +71,7 @@ public class IntentRegister extends AppCompatActivity {
             password = editTextPassword.getText().toString();
             passwordRe = editTextRePassword.getText().toString();
 
-            if (!password.equals(passwordRe)){
+            if (isPasswordEqual(password, passwordRe)){
                 textViewPassword.setText("Hsała się nie zgadzają");
                 textViewRePassword.setText("Hasła się nie zgadzają");
             } else {
@@ -77,7 +79,7 @@ public class IntentRegister extends AppCompatActivity {
                 textViewRePassword.setText("");
             }
 
-            if(!email.isEmpty() && !password.isEmpty() && password.equals(passwordRe)){
+            if(isEmailAndPasswordEmpty(email, password) && isPasswordEqual(password, passwordRe)){
 
                 mAuth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this, task -> {
@@ -100,6 +102,13 @@ public class IntentRegister extends AppCompatActivity {
         });
     }
 
+
+    public static Boolean isPasswordEqual(String firstPassword, String secondPassword){
+          return firstPassword.equals(secondPassword);
+    }
+    public static Boolean isEmailAndPasswordEmpty(String email, String password){
+        return !email.isEmpty() && !password.isEmpty();
+    }
     private void updateUI(FirebaseUser user) {
         if(user != null){
             Intent intent = new Intent(this, Menu.class);
@@ -124,7 +133,6 @@ public class IntentRegister extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
-
         MenuInflater menuInflater = new MenuInflater(this);
         menuInflater.inflate(R.menu.item_only_sett, menu);
         return super.onCreateOptionsMenu(menu);
