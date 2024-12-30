@@ -14,8 +14,11 @@ public class FriendsData {
     String body;
     LatLng preciseLocalization;
 
+    String photoURL;
+
     public FriendsData() {}
-    public FriendsData(String id, String name, String localization, String character, String hair, String eyes, String skin, String height, String body) {
+
+    public FriendsData(String id, String name, String localization, String character, String hair, String eyes, String skin, String height, String body, String photoURL) {
         this.id = id;
         this.name = name;
         this.localization = localization;
@@ -25,8 +28,8 @@ public class FriendsData {
         this.skin = skin;
         this.height = height;
         this.body = body;
+        this.photoURL = photoURL;
     }
-
     public String getName() {
         return name;
     }
@@ -104,4 +107,8 @@ public class FriendsData {
 
     public void setPreciseLocalization(LatLng preciseLocalization) {this.preciseLocalization = preciseLocalization;
     }
+
+    public String getPhotoURL() {return photoURL;}
+
+    public void setPhotoURL(String photoURL) {this.photoURL = photoURL;}
 }

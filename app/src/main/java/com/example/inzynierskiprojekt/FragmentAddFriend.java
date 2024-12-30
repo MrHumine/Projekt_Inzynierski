@@ -5,10 +5,15 @@ import static android.content.ContentValues.TAG;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.RecognizerIntent;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -34,21 +40,33 @@ import com.azure.ai.openai.models.ChatRequestSystemMessage;
 import com.azure.ai.openai.models.ChatRequestUserMessage;
 import com.azure.ai.openai.models.ChatResponseMessage;
 import com.azure.core.credential.AzureKeyCredential;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import org.jetbrains.annotations.Nullable;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.UUID;
 
 public class FragmentAddFriend extends Fragment {
     private static final String Tag = "Dodanie";
+    ImageView imageViewPhoto;
     ImageView imageViewWholeDescription;
     TextInputEditText textInputEditTextName;
     ImageView imageViewName;
@@ -68,8 +86,10 @@ public class FragmentAddFriend extends Fragment {
     ImageView imageViewHeight;
     TextView textViewError;
     Button buttonAdd;
+    Button buttonAddPhoto;
     private DatabaseReference dataBase;
     private FirebaseAuth mAuth;
+    int SELECT_PICTURE = 200;
     private static final int REQUEST_CODE_SPEECH_INPUT = 1;
     private static final int RECOGNIZER_RESULT = 1;
     private String azureOpenaiKey = "9YcxWe84xST2aI8hYRjcifmi4PaqIQIuoQg7FX8N88MBek8OuSIqJQQJ99ALACHYHv6XJ3w3AAAAACOG8Nzp";
@@ -78,11 +98,14 @@ public class FragmentAddFriend extends Fragment {
     private String tmpForSpeech = "";
     private String instructionToAi = "";
     private int number = 0;
+    private Uri selectedImageUri;
     List<ChatRequestMessage> chatMessages = new ArrayList<>();
     OpenAIClient client = new OpenAIClientBuilder()
             .endpoint(endpoint)
             .credential(new AzureKeyCredential(azureOpenaiKey))
             .buildClient();
+    String photoURL;
+    Bitmap selectededImageBitmap;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -93,6 +116,7 @@ public class FragmentAddFriend extends Fragment {
         String userUid = currentUser.getUid();
 
         buttonAdd = view.findViewById(R.id.button_add_description_creating_new_profile);
+        buttonAddPhoto = view.findViewById(R.id.button_add_image);
 
         textInputEditTextName = view.findViewById(R.id.text_input_add_name);
         textInputEditTextHair = view.findViewById(R.id.text_input_add_hair);
@@ -103,6 +127,7 @@ public class FragmentAddFriend extends Fragment {
         textInputEditTextSkin = view.findViewById(R.id.text_input_skin);
         textInputEditTextHeight = view.findViewById(R.id.text_input_height);
 
+        imageViewPhoto = view.findViewById(R.id.image_view_add_photo);
         imageViewWholeDescription = view.findViewById(R.id.image_view_whole_description);
         imageViewName = view.findViewById(R.id.image_view_name);
         imageViewLocalization = view.findViewById(R.id.image_view_localization);
@@ -127,6 +152,9 @@ public class FragmentAddFriend extends Fragment {
             ActivityCompat.requestPermissions(requireActivity(), new String[]{android.Manifest.permission.RECORD_AUDIO}, REQUEST_CODE_SPEECH_INPUT);
         }
 
+        buttonAddPhoto.setOnClickListener(View -> {
+            imageChoose();
+        });
 
         buttonAdd.setOnClickListener(View -> {
 
@@ -138,13 +166,20 @@ public class FragmentAddFriend extends Fragment {
             String body = String.valueOf(textInputEditTextBody.getText());
             String skin = String.valueOf(textInputEditTextSkin.getText());
             String height = String.valueOf(textInputEditTextHeight.getText());
-
             String userId = dataBase.push().getKey();
+            photoURL = "";
 
-            FriendsData friendData = new FriendsData(userId, name, localization, character, hair, eyes, skin, height, body);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            selectededImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] byteArray = baos.toByteArray();
+            photoURL = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            Log.d(Tag, photoURL);
+
+            FriendsData friendData = new FriendsData(userId, name, localization, character, hair, eyes, skin, height, body, photoURL);
             if (!name.isEmpty() || !localization.isEmpty() || !hair.isEmpty() || !eyes.isEmpty() ||
                     !character.isEmpty() || !body.isEmpty() || !skin.isEmpty() || !height.isEmpty()) {
                 if (userId != null) {
+
                     dataBase.child(userId).setValue(friendData)
                             .addOnSuccessListener(aVoid -> {
                                 textInputEditTextName.setText("");
@@ -353,5 +388,31 @@ public class FragmentAddFriend extends Fragment {
             }
         }
     }
+
+    private void imageChoose(){
+        Intent intentImageChoose = new Intent();
+        intentImageChoose.setType("image/*");
+        intentImageChoose.setAction(Intent.ACTION_GET_CONTENT);
+
+        launchSomeActivity.launch(intentImageChoose);
+    }
+    ActivityResultLauncher<Intent> launchSomeActivity = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(), result -> {
+        if(result.getResultCode() == RESULT_OK){
+            Intent data = result.getData();
+            if(data != null && data.getData() != null){
+                selectedImageUri = data.getData();
+                try {
+                    selectededImageBitmap = MediaStore.Images.Media.getBitmap(
+                            requireContext().getContentResolver(), selectedImageUri);
+                    imageViewPhoto.setImageBitmap(selectededImageBitmap);
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }
+    });
 
 }

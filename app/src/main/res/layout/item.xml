@@ -22,6 +22,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/photo_recycle"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/baseline_bakery_dining_24"></ImageView>

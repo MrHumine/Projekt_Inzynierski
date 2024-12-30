@@ -1,11 +1,15 @@
 package com.example.inzynierskiprojekt;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,6 +43,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
         FriendsData friendsData = list.get(position);
+        if(friendsData.getPhotoURL() != null){
+            holder.imageView.setImageBitmap(toBitmap(friendsData.getPhotoURL()));
+        }
         holder.name.setText(friendsData.getName());
         holder.localization.setText(friendsData.getLocalization());
         holder.character.setText(friendsData.getCharacter());
@@ -49,12 +56,19 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.skin.setText(friendsData.getSkin());
     }
 
+    public Bitmap toBitmap(String photo){
+        byte[] decoded = Base64.decode(photo, Base64.DEFAULT);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
+        return bitmap;
+    }
+
     @Override
     public int getItemCount() {
         return list.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageView;
         TextView name;
         TextView localization;
         TextView character;
@@ -77,6 +91,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             body = itemView.findViewById(R.id.textViewBody);
             buttonDelete = itemView.findViewById(R.id.buttonDelete);
             buttonEdit = itemView.findViewById(R.id.buttonEdit);
+            imageView = itemView.findViewById(R.id.photo_recycle);
 
             buttonDelete.setOnClickListener(view -> {
                removeItem(getAdapterPosition(), list.get(getAdapterPosition()).getId());
