@@ -45,9 +45,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class FragmentAddFriend extends Fragment {
     private static final String Tag = "Dodanie";
+    ImageView imageViewWholeDescription;
     TextInputEditText textInputEditTextName;
     ImageView imageViewName;
     TextInputEditText textInputEditTextLocalization;
@@ -74,36 +76,13 @@ public class FragmentAddFriend extends Fragment {
     private String endpoint = "https://ai-wrx758580291ai465395540385.services.ai.azure.com/";
     private String deploymentOrModelId = "gpt-4o-mini";
     private String tmpForSpeech = "";
+    private String instructionToAi = "";
+    private int number = 0;
     List<ChatRequestMessage> chatMessages = new ArrayList<>();
     OpenAIClient client = new OpenAIClientBuilder()
             .endpoint(endpoint)
             .credential(new AzureKeyCredential(azureOpenaiKey))
             .buildClient();
-    private final ActivityResultLauncher<Intent> speechLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result ->{
-                if(result.getResultCode() == Activity.RESULT_OK && result.getData() != null){
-                    ArrayList<String> recognizerText = result.getData().getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    assert recognizerText != null;
-                    tmpForSpeech = recognizerText.get(0);
-                    Log.d(Tag, tmpForSpeech);
-                    textInputEditTextName.setText(tmpForSpeech);
-                    chatMessages.clear();
-                    chatMessages.add(new ChatRequestSystemMessage("Działasz w aplikacji mobilnej, w której jest możliwość zapisywania informacji o przyjaciołach. Przesłany zostanie tobie tekst, który użytkownik powiedział w celu opisania imienia. Twoim zadaniem jest zwrócić wyłącznie imienia lub pseudonimi, który ma opisywać tego przyjaciela. O to ten tekst: " + tmpForSpeech));
-                    ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId, new ChatCompletionsOptions(chatMessages));
-                    for (ChatChoice choice : chatCompletions.getChoices()) {
-                        ChatResponseMessage message = choice.getMessage();
-                        Log.d(Tag, message.getContent() + "1");
-                        textInputEditTextName.setText(message.getContent());
-                    }
-                    if(recognizerText.isEmpty()){
-                        Toast.makeText(getContext(), "Nie dualo sie rozpoznac mowy", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Log.d(Tag, "else?");
-                    }
-                }
-            }
-    );
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -124,6 +103,7 @@ public class FragmentAddFriend extends Fragment {
         textInputEditTextSkin = view.findViewById(R.id.text_input_skin);
         textInputEditTextHeight = view.findViewById(R.id.text_input_height);
 
+        imageViewWholeDescription = view.findViewById(R.id.image_view_whole_description);
         imageViewName = view.findViewById(R.id.image_view_name);
         imageViewLocalization = view.findViewById(R.id.image_view_localization);
         imageViewBody = view.findViewById(R.id.image_view_body);
@@ -132,6 +112,7 @@ public class FragmentAddFriend extends Fragment {
         imageViewHeight = view.findViewById(R.id.image_view_height);
         imageViewSkin = view.findViewById(R.id.image_view_skin);
         imageViewHair = view.findViewById(R.id.image_view_hair);
+
 
         textViewError = view.findViewById(R.id.textViewError);
         ViewGroup.LayoutParams params = textViewError.getLayoutParams();
@@ -188,49 +169,162 @@ public class FragmentAddFriend extends Fragment {
             }
         });
 
-        imageViewName.setOnClickListener(View -> {
-            promptSpeechInput();
+        imageViewWholeDescription.setOnClickListener(View -> {
+        instructionToAi = "Użytkownik wypowiadając ten tekst opisywał wszystkie lub część róbryk" +
+                " dostępnych w aplikacji. Są to po kolei: Imie/Pseudonim, lokalizacja gdzie " +
+                "spotkało się osobę, charakter" +
+                ",kolor włosów, kolor oczu, odcień skóry, wrost i sylwetka. Twoim zadaniem " +
+                "jest usunięcie niepotrzebnych słów w tym tekście i zostawienie informacji " +
+                "dotyczących rubryk wymienionych w poprzednim zdaniu. Zwróć odpowiedź w formie " +
+                "nazwy rubryki dwukropek wyciągnięte informacje.(Jeżeli żadnych informacji nie" +
+                " będzie to zwróć pusty string) ";
+        number = 9;
+        promptSpeechInput();
+        });
 
+        imageViewName.setOnClickListener(View -> {
+            instructionToAi = "Użytkownik wypowiadając ten tekst opisywał imię albo pseudonim. " +
+                    "Twoim zadaniem jest usunięcie niepotrzebnych słów w tym tekście i " +
+                    "zostawienie informacji dotyczących tylko imienia albo pseudonimu. ";
+            number = 1;
+            promptSpeechInput();
         });
 
         imageViewLocalization.setOnClickListener(View -> {
-
+            instructionToAi = "Użytkownik wypowiadając ten tekst opisywał lokalizację, w której " +
+                    "poznał daną osobę. Twoim zadaniem jest usunięcie niepotrzebnych słów w tym " +
+                    "tekście i zostawienie informacji dotyczących tylko lokalizacji. ";
+            number = 2;
+            promptSpeechInput();
         });
-        imageViewBody.setOnClickListener(View -> {
 
+        imageViewBody.setOnClickListener(View -> {
+            instructionToAi = "Użytkownik wypowiadając ten tekst opisywał imię albo pseudonim. Twoim zadaniem jest usunięcie niepotrzebnych słów w tym tekście i zostawienie informacji dotyczących tylko imienia albo pseudonimu. ";
+            number = 3;
+            promptSpeechInput();
         });
         imageViewEyes.setOnClickListener(View -> {
-
+            instructionToAi = "Użytkownik wypowiadając ten tekst opisywał imię albo pseudonim. Twoim zadaniem jest usunięcie niepotrzebnych słów w tym tekście i zostawienie informacji dotyczących tylko imienia albo pseudonimu. ";
+            number = 4;
+            promptSpeechInput();
         });
         imageViewDescription.setOnClickListener(View -> {
-
+            instructionToAi = "Użytkownik wypowiadając ten tekst opisywał imię albo pseudonim. Twoim zadaniem jest usunięcie niepotrzebnych słów w tym tekście i zostawienie informacji dotyczących tylko imienia albo pseudonimu. ";
+            number = 5;
+            promptSpeechInput();
         });
         imageViewHeight.setOnClickListener(View -> {
-
+            instructionToAi = "Użytkownik wypowiadając ten tekst opisywał imię albo pseudonim. Twoim zadaniem jest usunięcie niepotrzebnych słów w tym tekście i zostawienie informacji dotyczących tylko imienia albo pseudonimu. ";
+            number = 6;
+            promptSpeechInput();
         });
         imageViewSkin.setOnClickListener(View -> {
-
+            instructionToAi = "Użytkownik wypowiadając ten tekst opisywał imię albo pseudonim. Twoim zadaniem jest usunięcie niepotrzebnych słów w tym tekście i zostawienie informacji dotyczących tylko imienia albo pseudonimu. ";
+            number = 7;
+            promptSpeechInput();
         });
         imageViewHair.setOnClickListener(View -> {
-
+            instructionToAi = "Użytkownik wypowiadając ten tekst opisywał imię albo pseudonim. Twoim zadaniem jest usunięcie niepotrzebnych słów w tym tekście i zostawienie informacji dotyczących tylko imienia albo pseudonimu. ";
+            number = 8;
+            promptSpeechInput();
         });
 
     }
 
     private void promptSpeechInput() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,
+                new Locale("pl", "PL").toString());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak to text");
         try {
-            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-//            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, new Locale("pl", "PL").toString());
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Możesz mówić");
-            speechLauncher.launch(intent);
-
+            startActivityForResult(intent, REQUEST_CODE_SPEECH_INPUT);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
+        String tmpSpeech = "";
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_SPEECH_INPUT) {
+            if (resultCode == RESULT_OK && data != null) {
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                tmpSpeech =  Objects.requireNonNull(result).get(0);
+                try {
+                    tmpSpeech = questionToAi(tmpSpeech);
+                } catch (ActivityNotFoundException e) {
+                }
+                tmpForSpeech = tmpSpeech;
+            }
+        }
+    }
+
+    private String questionToAi(String anwser){
+        chatMessages.clear();
+        try {
+            chatMessages.add(new ChatRequestSystemMessage("Działasz w aplikacji " +
+                    "mobilnej, która pozwala na zapisyanie informacji o nowo poznanych ludziach. " +
+                    "Dostaniesz tekst, który został wypowiedziany przez użytkownika i zamieniony " +
+                    "na tekst. " + instructionToAi + "O to ten tekst: " + anwser));
+
+            ChatCompletions chatCompletions = client.getChatCompletions(deploymentOrModelId,
+                    new ChatCompletionsOptions(chatMessages));
+
+            for (ChatChoice choice : chatCompletions.getChoices()) {
+                ChatResponseMessage message = choice.getMessage();
+                Log.d(Tag, message.getContent() + number);
+                anwser = message.getContent();
+                tmpForSpeech = anwser;
+            }
+
+            switch(number){
+                case 1:
+                    textInputEditTextName.setText(anwser);
+                    break;
+                case 2:
+                    textInputEditTextLocalization.setText(anwser);
+                    break;
+                case 3:
+                    textInputEditTextDescription.setText(anwser);
+                    break;
+                case 4:
+                    textInputEditTextHair.setText(anwser);
+                    break;
+                case 5:
+                    textInputEditTextEyes.setText(anwser);
+                    break;
+                case 6:
+                    textInputEditTextSkin.setText(anwser);
+                    break;
+                case 7:
+                    textInputEditTextHeight.setText(anwser);
+                    break;
+                case 8:
+                    textInputEditTextBody.setText(anwser);
+                    break;
+                case 9:
+                    String[] divideAnswer = anwser.split("\n");
+
+                    textInputEditTextName.setText(divideAnswer[0].split(":")[1]);
+                    textInputEditTextLocalization.setText(divideAnswer[1].split(":")[1]);
+                    textInputEditTextDescription.setText(divideAnswer[2].split(":")[1]);
+                    textInputEditTextHair.setText(divideAnswer[3].split(":")[1]);
+                    textInputEditTextEyes.setText(divideAnswer[4].split(":")[1]);
+                    textInputEditTextSkin.setText(divideAnswer[5].split(":")[1]);
+                    textInputEditTextHeight.setText(divideAnswer[6].split(":")[1]);
+                    textInputEditTextBody.setText(divideAnswer[7].split(":")[1]);
+                    break;
+            }
+
+            return anwser;
+        } catch (ActivityNotFoundException e) {
+        Log.d(Tag, anwser + " quaetionAi bład");
+    }
+        return anwser;
+    }
 
     @Override
     public void onResume(){
@@ -259,9 +353,5 @@ public class FragmentAddFriend extends Fragment {
             }
         }
     }
-
-
-
-
 
 }
